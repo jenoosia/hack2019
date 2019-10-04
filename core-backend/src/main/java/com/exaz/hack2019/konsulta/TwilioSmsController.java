@@ -10,21 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import java.util.Collections;
-import java.util.Map;
-
 @Controller
-public class WhatsappController {
+public class TwilioSmsController {
 
     private final Logger log = LogManager.getLogger(getClass().getName());
 
-    /*
-        Send as text/plain or application/xml (TwiML). See:
-        - https://www.twilio.com/console/debugger/NO733a2c8bf561701eafc7ec21540946b2
-        - https://www.twilio.com/docs/sms/twiml
-     */
-
-    @RequestMapping(path = "/hooks/whatsapp", method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(path = "/hooks/sms", method = RequestMethod.POST, produces = MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<String> processHook(@RequestBody String kvpInput) {
         log.info(kvpInput);
         return new ResponseEntity<>("You said something I don't understand, 'cause I'm still a basic bot at the moment." , HttpStatus.OK);
