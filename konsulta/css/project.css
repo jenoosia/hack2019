@@ -1,0 +1,131 @@
+body {
+    overflow-y: hidden;
+}
+
+.staff-name {
+    color: white;
+    margin-left: auto !important;
+}
+
+.case-list { height: 700px; overflow-y: scroll;}
+
+.messsage_history {
+    height: 566px;
+    overflow-y: auto;
+}
+
+.case-info {
+    margin-bottom: 20px;
+
+}
+
+.footer-notes {
+    padding-top: 10px;
+    text-align: center;
+}
+
+.no-record {
+    text-align: center;
+    margin-top: 300px;
+}
+
+img{ max-width:100%;}
+
+.header-search{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
+
+.case-record-item-info h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
+.case-record-item-info h5 span{ font-size:13px; float:right;}
+.case-record-item-info p{ font-size:14px; color:#989898; margin:auto}
+.chat_img {
+    float: left;
+    width: 11%;
+}
+.case-record-item-info {
+    float: left;
+    padding: 0 0 0 15px;
+    width: 88%;
+}
+
+.case-record-item{ overflow:hidden; clear:both;}
+.case-record {
+    border-bottom: 1px solid #c4c4c4;
+    margin: 0;
+    padding: 18px 16px 10px;
+}
+
+.activeRecord{
+    background:#17a2b8;
+}
+
+.activeRecord h5, .activeRecord p {
+    color: #ffffff;
+}
+
+.incoming_msg {
+ overflow:hidden; margin:15px 0 15px;
+}
+
+.incoming_msg_img {
+    display: inline-block;
+    width: 6%;
+}
+.received_msg {
+    display: inline-block;
+    padding: 0 0 0 10px;
+    vertical-align: top;
+    width: 92%;
+}
+.received_withd_msg p {
+    background: #ebebeb none repeat scroll 0 0;
+    border-radius: 3px;
+    color: #646464;
+    font-size: 14px;
+    margin: 0;
+    padding: 5px 10px 5px 12px;
+    width: 100%;
+}
+.time_date {
+    color: #747474;
+    display: block;
+    font-size: 12px;
+    margin: 8px 0 0;
+}
+.received_withd_msg { width: 57%;}
+
+.sent_msg p {
+    background: #17a2b8 none repeat scroll 0 0;
+    border-radius: 3px;
+    font-size: 14px;
+    margin: 0; color:#fff;
+    padding: 5px 10px 5px 12px;
+    width:100%;
+}
+.outgoing_msg{ overflow:hidden; margin:15px 0 15px;}
+.sent_msg {
+    float: right;
+    width: 46%;
+}
+.input_msg_write input {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    border: medium none;
+    color: #4c4c4c;
+    font-size: 15px;
+    min-height: 48px;
+    width: 95%;
+}
+
+.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+.msg_send_btn {
+    background: #17a2b8 none repeat scroll 0 0;
+    border: medium none;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
+    font-size: 17px;
+    height: 33px;
+    position: absolute;
+    right: 5px;
+    top: 11px;
+    width: 33px;
+}
+.messaging { padding: 0 0 50px 0;}
