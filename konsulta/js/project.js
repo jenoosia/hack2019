@@ -46,7 +46,7 @@
 
         s.retrieveRecord = function(refNum) {
             //if no refNum, dont do anything
-            if(refNum == null || refNum == '')
+            if(refNum === null || refNum === '')
                 return;
 
             $.ajax({
@@ -54,13 +54,14 @@
                 data: JSON.stringify({
                     caseRefNum: refNum
                 }),
-                contentType: 'application/json', dataType: 'json', type: 'GET', cache: false,
+                contentType: 'application/json', dataType: 'json', type: 'POST', cache: false,
                 success : function(data) {
                     if(data) {
                         //TODO not sure if needed to do this kind of checking? just worried that there will be some replacement happening when we click send message ???
-                        if(s.selectedRefNum() == refNum && s.selectedRecord() && s.selectedRecord().messages() && data.messages && s.selectedRecord().messages().length == data.messages.length) {
-                            return;
-                        }else {
+                        if (s.selectedRefNum() === refNum && s.selectedRecord() && s.selectedRecord().messages() && data.messages) {
+                            var clientMessages = s.selectedRecord().messages();
+                            var serverMessages = data.messages;
+                        } else {
                             var caseRecordInfo = new ks.CaseRecordInfo();
                             caseRecordInfo.init(data);
                             s.selectedRecord(caseRecordInfo);  //replace only when there's changes in messages
@@ -173,10 +174,10 @@
             message.init({
                 "message": s.newMessage(),
                 "fromPatient" : false,
-                "dateSent" : new Date().toLocaleTimeString().toUpperCase().replace(/([\d]+:[\d]+):[\d]+(\s\w+)/g, "$1$2") + ' | ' +  "Today"
+                "dateSent" : moment().format('h:mm A') + ' | Today'
+                    // new Date().toLocaleTimeString().toUpperCase().replace(/([\d]+:[\d]+):[\d]+(\s\w+)/g, "$1$2") + ' | ' +  "Today"
             });
             s.messages.push(message);
-            s.newMessage('');
 
             $.ajax({
                 url: API_DOMAIN + '/konsulta/case/message/send',
@@ -188,6 +189,8 @@
                 contentType: 'application/json', dataType: 'json', type: 'POST', cache: false,
                 success : function(data) {}
             });
+
+            s.newMessage('');
 
             setTimeout(function(){ s.scrollTop(); }, 100);
 
@@ -207,25 +210,25 @@
         s.fromPatient = ko.observable(false);
         s.dateSent = ko.observable('');
         s.channelIcon = ko.computed(function() {
-            if(s.channel() == 'Viber') {
+            if(s.channel() === 'Viber') {
                 return "/images/viber.png";
             }
 
-            if(s.channel() == 'SMS') {
+            if(s.channel() === 'Sms') {
                 return "/images/sms-icon.png";
             }
 
-            if(s.channel() == 'WhatsApp') {
+            if(s.channel() === 'WhatsApp') {
                 return "/images/whatsapp-icon.png"
             }
-            return "#";
+            return "/images/sms-icon.png";
 
         }, this);
 
         s.init = function(data) {
             s.id(data.id);
             s.channel(data.channel);
-            s.message(data.message);
+            s.message(data.message ? data.message : '/blank/');
             s.fromPatient(data.fromPatient);
             s.dateSent(data.dateSent);
         }
