@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="https://deals-web.enovax.com/deals/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Funding</title>
+
+    <link rel="stylesheet" type="text/css" href="https://presto-proto-web.enovax.com/css-lib/bulma.min.css">
+
+	<style type="text/css">
+		.hero.is-primary.is-bold {
+			background-image: none !important;
+			background-color: #ff6600;
+		}
+		.button.is-info {
+			background-color: #ffffff;
+			color: #ff6600;
+			border-color: #ff6600;
+		}
+		.button.is-info:hover {
+			background-color: #ff6600;
+			color: #ffffff;
+		}
+	</style>
+</head>
+
+<body>
+
+<section class="hero is-primary is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title"><a href="index.html">Konsulta</a></h1>
+            <h2 class="subtitle">Social Funding</h2>
+        </div>
+    </div>
+</section>
+
+<section class="section is-small">
+    <div class="tile is-ancestor">
+        <div class="tile is-parent is-vertical">
+            <div class="tile is-child is-12">
+                <div class="columns">
+                    <div class="column is-8 is-offset-2">
+
+                        <div class="field">
+                            <label class="label" for="payDetails">Session ID</label>
+                            <div class="control">
+                                <input class="input" id="sessionId" type="text" value="${context.sessionId}">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link is-info" id="btnUpdSession">Updated Session ID</button>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label" for="payTxn">Transactions</label>
+                            <div class="control" id="payTxn">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link is-info" id="btnAdd">Add Card to Presto</button>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="payCard">Card</label>
+                            <div class="control" id="payCard">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="payAmount">Amount</label>
+                            <div class="control">
+                                <input class="input" id="payAmount" type="number" min="0.00" step="0.01">
+                            </div>
+                        </div>
+                        <div class="field">
+                            <div class="control">
+                                <button class="button is-link is-info" id="btnPay">Pay with Presto via Card</button>
+                                <button class="button is-link is-info" id="btnPay2">Pay with Presto via Card (Recurring)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="paymentgatewayform" style="display: none;"></form>
+</section>
+
+
+<script type="text/javascript" src="https://presto-proto-web.enovax.com/js-lib/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+    var clickedPay = false;
+
+    function removeCard(cardReference) {
+        if (clickedPay) { return; }
+        clickedPay = true;
+
+        $('#msgState').text('State: Processing card removal...');
+
+        var payload = {
+            card: cardReference
+        };
+
+        $.ajax({
+            url: 'remove-card',
+            cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function(data) {
+                if(!data.success){
+                    alert(data.message);
+                } else {
+                    $('#msgState').text('State: Card removed')
+                }
+            },
+            complete: function() {
+                clickedPay = false;
+                updateCards();
+            }
+        });
+    }
+
+    function setPrimaryCard(cardReference) {
+        if (clickedPay) { return; }
+        clickedPay = true;
+
+        $('#msgState').text('State: Processing setting card primary...');
+
+        var payload = {
+            card: cardReference
+        };
+
+        $.ajax({
+            url: 'set-primary-card',
+            cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function(data) {
+                if(!data.success){
+                    alert(data.message);
+                } else {
+                    $('#msgState').text('State: Card set as primary')
+                }
+            },
+            complete: function() {
+                clickedPay = false;
+                updateCards();
+            }
+        });
+    }
+
+    function refundTxn(txnRefNum, amount) {
+        if (clickedPay) { return; }
+        clickedPay = true;
+
+        $('#msgState').text('State: Processing refund...');
+
+        var payload;
+        if (amount) {
+            payload = {
+                transactionRefNum: txnRefNum,
+                amount: amount
+            };
+        } else {
+            payload = {
+                transactionRefNum: txnRefNum
+            };
+        }
+
+        $.ajax({
+            url: 'refund-txn',
+            cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+            data: JSON.stringify(payload),
+            success: function(data) {
+                if(!data.success){
+                    alert(data.message);
+                } else {
+                    $('#msgState').text('State: Refunded')
+                }
+            },
+            complete: function() {
+                clickedPay = false;
+                updateTransactions();
+            }
+        });
+    }
+
+    function updateCards() {
+        $.ajax({
+            url: 'list-cards',
+            cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+            success: function(data) {
+                if(!data.success){
+                    alert(data.message);
+                } else {
+                    if(data.cards) {
+                        $('#payCard').empty();
+                        for (var i = 0; i < data.cards.length; i++) {
+                            var card = data.cards[i];
+                            $('<label class="radio"><input type="radio" name="payCard" value="' + card.cardReference + '"> ' +
+                                card.maskedCardNumber + '</label>').appendTo('#payCard');
+                            $("<a href='#' onclick='removeCard(\"" + card.cardReference + "\")'> Remove</a>").appendTo('#payCard');
+                            if (!card.primaryCard) {
+                                $("<a href='#' onclick='setPrimaryCard(\"" + card.cardReference + "\")'> Set as Primary</a>").appendTo('#payCard');
+                            }
+                            $('<br/>').appendTo('#payCard');
+                        }
+                    }
+                }
+            },
+            complete: function() {
+                clickedPay = false;
+            }
+        });
+    }
+
+    function updateTransactions() {
+        $.ajax({
+            url: 'list-transactions',
+            cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+            success: function(data) {
+                if(!data.success){
+                    alert(data.message);
+                } else {
+                    if(data.transactions) {
+                        $('#payTxn').empty();
+                        for (var i = 0; i < data.transactions.length; i++) {
+                            var txn = data.transactions[i];
+                            $('<span>' + (new Date(txn.createdDate)) + ' ' + (txn.amount / 100) + ' MYR (original) '  +
+                                (txn.adjustedAmount / 100) + ' MYR (adjusted) [' + txn.status +']</span>').appendTo('#payTxn');
+                            if ((txn.status != 'REFUNDED' || txn.adjustedAmount > 0) && txn.status != 'FAILED' && txn.pspReference != null) {
+                                $("<a href='#' onclick='refundTxn(\"" + txn.transactionRefNum + "\")'> Refund</a>").appendTo('#payTxn');
+                                $("<a href='#' onclick='refundTxn(\"" + txn.transactionRefNum + "\", " + (txn.amount/2) + ")'> Half Refund</a>").appendTo('#payTxn');
+                            }
+                            $('<br/>').appendTo('#payTxn');
+                        }
+                    }
+                }
+            },
+            complete: function() {
+                clickedPay = false;
+            }
+        });
+    }
+
+    $('document').ready(function() {
+
+        clickedPay = true;
+
+        updateCards();
+        updateTransactions();
+
+        $('#btnUpdSession').click(function() {
+            if ($('#sessionId').val().length == 0) {
+                alert('Session ID must be specified.');
+                return;
+            }
+
+            if (clickedPay) { return; }
+            clickedPay = true;
+
+            var payload = {
+                sessionId: $('#sessionId').val()
+            };
+
+            $('#msgState').text('State: Updating session...');
+
+            $.ajax({
+                url: 'update-session',
+                cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+                data: JSON.stringify(payload),
+                success: function(data) {
+                    if(!data.success){
+                        alert(data.message);
+                    } else {
+                        $('#msgState').text('State: Session ID updated');
+                    }
+                },
+                complete: function() {
+                    clickedPay = false;
+                    updateCards();
+                    updateTransactions();
+                }
+            });
+        });
+
+        $('#btnAdd').click(function() {
+            if (clickedPay) { return; }
+            clickedPay = true;
+
+            $('#msgState').text('State: Processing add...');
+
+            $.ajax({
+                url: 'add-card',
+                cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+                success: function(data) {
+                    if(!data.success){
+                        alert(data.message);
+                    } else {
+                        var a = $('#paymentgatewayform');
+                        a.attr('action', data.hppUrl).attr('method', 'post');
+                        var b = $(document.createElement('input'));
+                        b.attr('type', 'hidden').attr('name', 'merchantSig').val(data.hppSignature);
+                        a.append(b);
+                        var names = ['sessionValidity', 'merchantAccount', 'paymentAmount', 'currencyCode', 'skinCode', 'captureDelayHours',
+                            'merchantReference', 'shopperReference', 'shopperEmail', 'recurringContract', 'shipBeforeDate', 'resURL'];
+                        for (var i = 0; i < names.length; i++) {
+                            b = $(document.createElement('input'));
+                            b.attr('type', 'hidden').attr('name', names[i]).val(data.hppRequest[names[i]]);
+                            a.append(b);
+                        }
+                        a.submit();
+                    }
+                },
+                complete: function() {
+                    clickedPay = false;
+                    $('#msgState').text('State: Ready for action');
+                }
+            });
+        });
+
+        $('#btnPay').click(function() {
+            if ($('#payAmount').val().length == 0) {
+                alert('Amount must be specified.');
+                return;
+            }
+
+            if (clickedPay) { return; }
+            clickedPay = true;
+
+            $('#msgState').text('State: Processing checkout...');
+
+            var payload = {
+                card: $("input[name=payCard]:checked").val(),
+                amount: Number((Number($('#payAmount').val()) * 100).toFixed(0))
+            };
+
+            $.ajax({
+                url: 'pay',
+                cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+                data: JSON.stringify(payload),
+                success: function(data) {
+                    if(!data.success){
+                        alert(data.message);
+                    } else {
+                        if (data.redirect) {
+                            var a = $('#paymentgatewayform');
+                            a.attr('action', data.redirectUrl).attr('method', 'post');
+                            for (var key in data.params) {
+                                var b = $(document.createElement('input'));
+                                b.attr('type', 'hidden').attr('name', key).val(data.params[key]);
+                                a.append(b);
+                            }
+                            a.submit();
+                        } else {
+                            $('#msgState').text('State: Payment complete');
+                        }
+                    }
+                },
+                complete: function() {
+                    clickedPay = false;
+                    updateTransactions()
+                }
+            });
+        });
+
+        $('#btnPay2').click(function() {
+            if ($('#payAmount').val().length == 0) {
+                alert('Amount must be specified.');
+                return;
+            }
+
+            if ($("input[name=payCard]:checked").val().length == 0) {
+                alert('Card must be selected.');
+                return;
+            }
+
+            if (clickedPay) { return; }
+            clickedPay = true;
+
+            $('#msgState').text('State: Processing checkout...');
+
+            var payload = {
+                card: $("input[name=payCard]:checked").val(),
+                amount: Number((Number($('#payAmount').val()) * 100).toFixed(0))
+            };
+
+            $.ajax({
+                url: 'pay-recurring',
+                cache: false, type: 'POST', dataType: 'json', contentType: 'application/json',
+                data: JSON.stringify(payload),
+                success: function(data) {
+                    if(!data.success){
+                        alert(data.message);
+                    } else {
+                        $('#msgState').text('State: Payment complete');
+                    }
+                },
+                complete: function() {
+                    clickedPay = false;
+                    updateTransactions()
+                }
+            });
+        });
+
+        <#if context.addCardResult??>
+        $('#msgState').text('Add card result: ${context.addCardResult}');
+        <#elseif context.pay3dResult??>
+        $('#msgState').text('Pay result: ${context.pay3dResult}');
+        <#else>
+        $('#msgState').text('State: Ready for action');
+        </#if>
+    });
+</script>
+
+</body>
+
+</html>

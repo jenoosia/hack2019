@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="https://deals-web.enovax.com/deals/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Konsulta Funding</title>
+
+    <link rel="stylesheet" type="text/css" href="https://presto-proto-web.enovax.com/css-lib/bulma.min.css">
+
+	<style type="text/css">
+		.hero.is-primary.is-bold {
+			background-image: none !important;
+			background-color: #ff6600;
+		}
+		.button.is-info {
+			background-color: #ffffff;
+			color: #ff6600;
+			border-color: #ff6600;
+		}
+		.button.is-info:hover {
+			background-color: #ff6600;
+			color: #ffffff;
+		}
+	</style>
+</head>
+
+<body>
+
+<section class="hero is-primary is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title" style="text-align:center;"><a href="index.html">Konsulta</a></h1>
+            <h2 class="subtitle" style="text-align:center;">Social Funding</h2>
+        </div>
+    </div>
+</section>
+
+<section class="section is-small">
+    <div class="tile is-ancestor">
+        <div class="tile is-parent is-vertical">
+            <div class="tile is-child is-12">
+                <div class="columns">
+                    <div class="column is-10 is-offset-1">
+                        <div class="field" style="text-align:center;">
+                        	<div>
+                        		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus ligula libero, 
+                        		vestibulum euismod elit porttitor varius. Curabitur nec massa cursus, placerat dolor at, 
+                        		eleifend eros. Sed molestie consequat ipsum, quis mattis eros. Cras rutrum, lacus sit amet 
+                        		lobortis lacinia, justo dolor ornare est, ut accumsan elit est nec tellus.
+                        	</div>
+                        	<br/>
+                        	<button class="button is-link is-info" id="btnGeneralMeds">Donate to General Medicine Funds</button>
+                        </div>
+                        <br/>
+                        <div class="field" style="text-align:center;height:300px;">
+                            <div class="column is-6" style="float:left;">
+                            	<div>
+                           			<p><a>Tuberculosis (TB)</a> is a potentially serious infectious disease that mainly affects your lungs. 
+                           			The bacteria that cause tuberculosis are spread from one person to another through tiny droplets 
+                           			released into the air via coughs and sneezes.</p>
+                           			<p>In the past 3 months, there has been <span style="color:red;">32</span> diagnosed cases of tuberculosis.</p>
+                           			<p>The average cost to treat a case of tuberculosis is <span style="color:red;">P650</span>.</p>
+                            	</div>
+                            	<br/>
+                                <button class="button is-link is-info" id="btnIndivMeds">Donate</button>
+                            </div>
+                            <div class="column is-6" style="float:left;">
+                            	<div>
+                           			<p><a>Dengue fever</a> is a mosquito-borne tropical disease caused by the dengue virus. Symptoms typically 
+                           			begin three to fourteen days after infection. This may include a high fever, headache, vomiting, 
+                           			muscle and joint pains, and a characteristic skin rash.</p>
+                           			<p>In the past 3 months, there has been <span style="color:red;">128</span> diagnosed cases of dengue.</p>
+                           			<p>The average cost to treat a case of dengue is <span style="color:red;">P1,130</span>.</p>
+                            	</div>
+                            	<br/>
+                                <button class="button is-link is-info" id="btnIndivMeds">Donate</button>
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="field" style="text-align:center;height:300px;">
+                            <div class="column is-6" style="float:left;">
+                            	<div>
+                           			<p><a>Polio, short for poliomyelitis</a>, or infantile paralysis, is an infectious disease caused by the poliovirus. 
+                           			In about 0.5 percent of cases there is muscle weakness resulting in an inability to move.</p>
+                           			<p>In the past 3 months, there has been <span style="color:red;">2</span> diagnosed cases of polio.</p>
+                           			<p>The average cost to treat a case of polio is <span style="color:red;">P350</span>.</p>
+                            	</div>
+                            	<br/>
+                                <button class="button is-link is-info" id="btnIndivMeds">Donate</button>
+                            </div>
+                            <div class="column is-6" style="float:left;">
+                            	<div>
+                           			<p><a>Scabies</a> is one of several skin conditions that can cause itching and rashes. It is a dermatologic 
+                           			condition caused by sarcoptes scabiei, an eight-legged microscopic mite. Scabies is contagious and 
+                           			can spread very easily from person to person through close physical contact.</p>
+                           			<p>In the past 3 months, there has been <span style="color:red;">571</span> diagnosed cases of scabies.</p>
+                           			<p>The average cost to treat a case of scabies is <span style="color:red;">P150</span>.</p>
+                            	</div>
+                            	<br/>
+                                <button class="button is-link is-info" id="btnIndivMeds">Donate</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="paymentgatewayform" style="display: none;"></form>
+</section>
+
+
+<script type="text/javascript" src="https://presto-proto-web.enovax.com/js-lib/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+	$('#btnGeneralMeds').click(function() {
+		window.location.href = "index.html";
+	});
+	
+	$('#btnIndivMeds').click(function() {
+		window.location.href = "index.html";
+	});
+
+    $('document').ready(function() {
+
+    });
+</script>
+
+</body>
+
+</html>
