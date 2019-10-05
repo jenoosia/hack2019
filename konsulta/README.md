@@ -16,5 +16,7 @@ Update on the timeout defined in s.retrieveUpdates if needed, currently always r
 
 send of message is tru clicking of the plane icon, doesnt' work yet on press keyboard enter on input XD
 
+need to check if there' issue in appended message, will it be overriden by previous one? will there be doubled sent message?
+
 
 

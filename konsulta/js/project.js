@@ -35,13 +35,20 @@
                     }
                 }
             });
+
+            //harcoded code
+            // $.each(CASE_LISTING, function(idx, info) {
+            //     var caseRecordSimple = new ks.CaseRecordSimple(s);
+            //     caseRecordSimple.init(info);
+            //     s.caseRecords.push(caseRecordSimple);
+            // });
         }
 
         s.retrieveRecord = function(refNum) {
             //if no refNum, dont do anything
             if(refNum == null || refNum == '')
                 return;
-            s.selectedRefNum(refNum);
+
             $.ajax({
                 url: API_DOMAIN + '/konsulta/case/messages',
                 data: JSON.stringify({
@@ -50,12 +57,25 @@
                 contentType: 'application/json', dataType: 'json', type: 'GET', cache: false,
                 success : function(data) {
                     if(data) {
-                        var caseRecordInfo = new ks.CaseRecordInfo();
-                        caseRecordInfo.init(data);
-                        s.selectedRecord(caseRecordInfo);
+                        //TODO not sure if needed to do this kind of checking? just worried that there will be some replacement happening when we click send message ???
+                        if(s.selectedRefNum() == refNum && s.selectedRecord() && s.selectedRecord().messages() && data.messages && s.selectedRecord().messages().length == data.messages.length) {
+                            return;
+                        }else {
+                            var caseRecordInfo = new ks.CaseRecordInfo();
+                            caseRecordInfo.init(data);
+                            s.selectedRecord(caseRecordInfo);  //replace only when there's changes in messages
+                            s.selectedRefNum(refNum);
+                        }
                     }
                 }
             });
+
+            //harcoded code
+            // if(!s.selectedRecord() || s.selectedRecord().messages().length != CASE_RECORD.messages.length) {
+            //     var caseRecordInfo = new ks.CaseRecordInfo();
+            //     caseRecordInfo.init(CASE_RECORD);
+            //     s.selectedRecord(caseRecordInfo);  //replace only when there's changes in messages
+            // }
         }
 
         s.retrieveUpdates = function() {
@@ -149,6 +169,15 @@
         };
 
         s.sendMessage = function() {
+            var message = new ks.CaseRecordMessage();
+            message.init({
+                "message": s.newMessage(),
+                "fromPatient" : false,
+                "dateSent" : new Date().toLocaleTimeString().toUpperCase().replace(/([\d]+:[\d]+):[\d]+(\s\w+)/g, "$1$2") + ' | ' +  "Today"
+            });
+            s.messages.push(message);
+            s.newMessage('');
+
             $.ajax({
                 url: API_DOMAIN + '/konsulta/case/message/send',
                 data: JSON.stringify({
@@ -159,16 +188,6 @@
                 contentType: 'application/json', dataType: 'json', type: 'POST', cache: false,
                 success : function(data) {}
             });
-
-
-            var message = new ks.CaseRecordMessage();
-            message.init({
-                "message": s.newMessage(),
-                "fromPatient" : false,
-                "dateSent" : new Date().toLocaleTimeString().toUpperCase().replace(/([\d]+:[\d]+):[\d]+(\s\w+)/g, "$1$2") + ' | ' +  "Today"
-            });
-            s.messages.push(message);
-            s.newMessage('');
 
             setTimeout(function(){ s.scrollTop(); }, 100);
 
