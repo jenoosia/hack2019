@@ -9,9 +9,14 @@ body {
 
 .case-list { height: 700px; overflow-y: scroll;}
 
-.messsage_history {
+.messsage-history {
     height: 566px;
     overflow-y: auto;
+}
+
+.case-log {
+    overflow-y: auto;
+    height: 750px;
 }
 
 .case-info {
@@ -36,10 +41,6 @@ img{ max-width:100%;}
 .case-record-item-info h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
 .case-record-item-info h5 span{ font-size:13px; float:right;}
 .case-record-item-info p{ font-size:14px; color:#989898; margin:auto}
-.chat_img {
-    float: left;
-    width: 11%;
-}
 .case-record-item-info {
     float: left;
     padding: 0 0 0 15px;
@@ -61,21 +62,21 @@ img{ max-width:100%;}
     color: #ffffff;
 }
 
-.incoming_msg {
+.incoming-msg {
  overflow:hidden; margin:15px 0 15px;
 }
 
-.incoming_msg_img {
+.incoming-msg_img {
     display: inline-block;
     width: 6%;
 }
-.received_msg {
+.received-msg {
     display: inline-block;
     padding: 0 0 0 10px;
     vertical-align: top;
     width: 92%;
 }
-.received_withd_msg p {
+.received-withd-msg p {
     background: #ebebeb none repeat scroll 0 0;
     border-radius: 3px;
     color: #646464;
@@ -84,15 +85,15 @@ img{ max-width:100%;}
     padding: 5px 10px 5px 12px;
     width: 100%;
 }
-.time_date {
+.time-date {
     color: #747474;
     display: block;
     font-size: 12px;
     margin: 8px 0 0;
 }
-.received_withd_msg { width: 57%;}
+.received-withd-msg { width: 57%;}
 
-.sent_msg p {
+.sent-msg p {
     background: #17a2b8 none repeat scroll 0 0;
     border-radius: 3px;
     font-size: 14px;
@@ -100,12 +101,12 @@ img{ max-width:100%;}
     padding: 5px 10px 5px 12px;
     width:100%;
 }
-.outgoing_msg{ overflow:hidden; margin:15px 0 15px;}
-.sent_msg {
+.outgoing-msg{ overflow:hidden; margin:15px 0 15px;}
+.sent-msg {
     float: right;
     width: 46%;
 }
-.input_msg_write input {
+.input-msg-write input {
     background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
     border: medium none;
     color: #4c4c4c;
@@ -114,8 +115,8 @@ img{ max-width:100%;}
     width: 95%;
 }
 
-.type_msg {border-top: 1px solid #c4c4c4;position: relative;}
-.msg_send_btn {
+.type-msg {border-top: 1px solid #c4c4c4;position: relative;}
+.msg-send-btn {
     background: #17a2b8 none repeat scroll 0 0;
     border: medium none;
     border-radius: 50%;
