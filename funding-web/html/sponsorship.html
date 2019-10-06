@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="shortcut icon" href="https://deals-web.enovax.com/deals/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Konsulta Funding</title>
+
+    <link rel="stylesheet" type="text/css" href="https://presto-proto-web.enovax.com/css-lib/bulma.min.css">
+    <link rel="stylesheet" type="text/css" href="css/table.css">
+
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	<style type="text/css">
+		html {
+			font-size: 20px;
+		}
+		.title {
+			font-size: 3rem;
+		}
+		.hero.is-primary.is-bold {
+			background-image: none !important;
+			background-color: #ff6600;
+		}
+		.button.is-info {
+			background-color: #ffffff;
+			color: #ff6600;
+			border-color: #ff6600;
+		}
+		.button.is-info:hover {
+			background-color: #ff6600;
+			color: #ffffff;
+		}
+	</style>
+</head>
+
+<body>
+
+<section class="hero is-primary is-bold">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title" style="text-align:center;"><a href="index.html">Konsulta</a></h1>
+            <h2 class="subtitle" style="text-align:center;">Social Funding</h2>
+        </div>
+    </div>
+</section>
+
+<section class="section is-small">
+    <div class="tile is-ancestor">
+        <div class="tile is-parent is-vertical">
+            <div class="tile is-child is-12">
+                <div class="columns">
+                    <div class="column is-10 is-offset-1">
+                        <div class="field" style="text-align:center;">
+                        	<span style="font-size:1.5em;">
+                        		Barangay 41 at Mandaue City
+                        	</span>
+                        </div>
+                        <div class="field" style="text-align:center;">
+                       		<div>
+                       			<img style="height:300px;" src="https://www.worldvision.org.sg/sites/default/files/styles/card_image/public/card_images/trip.jpg?itok=EtPJWD7-"/>
+                       		</div>
+                       		<div style="height: 270px; border-top: black 1px solid; border-bottom: black 1px solid; margin-top: 20px;">
+                       			<div class="column is-6" style="float:left; height: 269px; border-right: black 1px solid; text-align: left;'">
+                       				<div>
+                        				<span style="color:#ff6600;">Families:</span>&nbsp;
+                        				<span>31</span>
+                       				</div>
+                       				<div>
+                        				<span style="color:#ff6600;">Population:</span>&nbsp;
+                        				<span>189</span>
+                       				</div>
+                       				<div>
+                        				<span style="color:#ff6600;">Average Cases Per Month:</span>&nbsp;
+                        				<span>56</span>
+                       				</div>
+                       				<div>
+                        				<span style="color:#ff6600;">Disease Risks:</span>&nbsp;
+                        				<span>Dengue, Polio</span>
+                       				</div>
+                       				<div>
+                        				<span style="color:#ff6600;">Sponsors:</span>&nbsp;
+                        				<span>22</span>
+                       				</div>
+                       				<div>
+                        				<span style="color:#ff6600;">Average Sponsor Cost Per Month:</span>&nbsp;
+                        				<span>P217.50</span>
+                       				</div>
+                       			</div>
+                       			<div class="column is-6" style="float:left; height: 269px; text-align: left;">
+                       				<div>Sponsorship Queue</div>
+                       				<div>
+                       					<ol style="font-size:0.8rem;padding-left:20px;">
+                       						<li>John Smith (P267.00 of P1,000.00 this month)</li>
+                       						<li>Jane Doe (P129.00 of P500.00 this month)</li>
+                       						<li>Maria Clara (P195.00 of P1,200.00 this month)</li>
+                       						<li>Crisostomo Ibarra (P729.00 of P5,000.00 this month)</li>
+                       						<li>Jose Rizal (P329.00 of P1,500.00 this month)</li>
+                       					</ol>
+                       				</div>
+                       				<div style="text-align:left;">
+                       					&laquo; &lsaquo; &nbsp; &rsaquo; &raquo;
+                       				</div>
+                       			</div>
+                       		</div>
+                       		<br/>
+                       		<div style="text-align:left;">
+                       			<div>Sponsorship Cases</div>
+                        		<table>
+								  <thead>
+								    <tr>
+								      <th>Case ID</th>
+								      <th>Case Date</th>
+								      <th>Patient Name</th>
+								      <th>Diagnosis</th>
+								      <th>Status</th>
+								      <th>Result</th>
+								      <th>Total Cost</th>
+								      <th>Sponsor</th>
+								    </tr>
+								  </thead>
+								  <tbody>
+								    <tr>
+								      <td>ID-76CEA9</td>
+								      <td>05/10/2019 17:32:57</td>
+								      <td>Juan Flavier</td>
+								      <td>Fever</td>
+								      <td>Closed</td>
+								      <td>Medicine Prescription</td>
+								      <td>P54.50</td>
+								      <td>John Doe</td>
+								    </tr>
+								  </tbody>
+								</table>
+                       		</div>
+                        </div>
+                        <br/>
+                        <br/>
+                        <div class="field" style="text-align:center;">
+                        	<button class="button is-link is-info" style="margin-top:10px;" id="btnExit">Edit My Sponsorship</button>
+                        	&nbsp;&nbsp;&nbsp;
+                            <button class="button is-link is-info" style="margin-top:10px;" id="btnExit">Exit This Sponsorship</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form id="paymentgatewayform" style="display: none;"></form>
+</section>
+
+<script type="text/javascript" src="https://presto-proto-web.enovax.com/js-lib/jquery-3.3.1.min.js"></script>
+
+<script type="text/javascript">
+	$('#btnExit').click(function() {
+		window.location.href = "index.html";
+	});
+
+    $('document').ready(function() {
+    	
+    });
+</script>
+
+</body>
+
+</html>

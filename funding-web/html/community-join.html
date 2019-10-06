@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="https://presto-proto-web.enovax.com/css-lib/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="css/chart.css">
 
+	<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 	<style type="text/css">
 		html {
 			font-size: 20px;
@@ -68,42 +69,47 @@
                 <div class="columns">
                     <div class="column is-10 is-offset-1">
                         <div class="field" style="text-align:center;">
-                        	<span>
-                        		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus ligula libero, 
-                        		vestibulum euismod elit porttitor varius. Curabitur nec massa cursus, placerat dolor at, 
-                        		eleifend eros.
+                        	<span style="font-size:1.5em;">
+                        		Barangay 41 at Mandaue City
                         	</span>
                         </div>
                         <div class="field" style="text-align:center;">
-                        	<div class="column is-2" style="float:left;padding-top:120px;">
+                        	<div class="column is-1" style="float:left;padding-top:120px;">
                         		<span style="font-size:1.5em;">&lsaquo;</span>
                         	</div>
-                        	<div class="column is-8" style="float:left;">
+                        	<div class="column is-10" style="float:left;">
                         		<div>
-                        			<img style="height:300px;" src="https://www.worldvision.org.sg/sites/default/files/needs-impact/health_needs.jpg"/>
+                        			<img style="height:300px;" src="https://www.worldvision.org.sg/sites/default/files/styles/card_image/public/card_images/trip.jpg?itok=EtPJWD7-"/>
                         		</div>
-                        		<div style="height: 280px; border-top: black 1px solid; border-bottom: black 1px solid; margin-top: 20px;">
-                        			<div class="column is-6" style="float:left; height: 280px; border-right: black 1px solid; text-align: left;'">
-                        				<div style="color:#ff6600;">Diagnosis:</div>
-                        				<div>Dengue Fever</div>
-                        				<div style="color:#ff6600;">Treatment:</div>
-                        				<div>Requires hospitalization and blood transfusion</div>
-                        				<div style="color:#ff6600;">Risk Factors:</div>
-                        				<div>Potentially fatal</div>
+                        		<div style="height: 270px; border-top: black 1px solid; border-bottom: black 1px solid; margin-top: 20px;">
+                        			<div class="column is-6" style="float:left; height: 269px; border-right: black 1px solid; text-align: left;'">
+                        				<div>
+	                        				<span style="color:#ff6600;">Families:</span>&nbsp;
+	                        				<span>31</span>
+                        				</div>
+                        				<div>
+	                        				<span style="color:#ff6600;">Population:</span>&nbsp;
+	                        				<span>189</span>
+                        				</div>
+                        				<div>
+	                        				<span style="color:#ff6600;">Average Cases Per Month:</span>&nbsp;
+	                        				<span>56</span>
+                        				</div>
+                        				<div>
+	                        				<span style="color:#ff6600;">Disease Risks:</span>&nbsp;
+	                        				<span>Dengue, Polio</span>
+                        				</div>
+                        				<div>
+	                        				<span style="color:#ff6600;">Sponsors:</span>&nbsp;
+	                        				<span>22</span>
+                        				</div>
+                        				<div>
+	                        				<span style="color:#ff6600;">Average Sponsor Cost Per Month:</span>&nbsp;
+	                        				<span>P217.50</span>
+                        				</div>
                         			</div>
-                        			<div class="column is-6" style="float:left; height: 280px;">
-                        				<div style="width:50%;margin:0 auto;">
-	                        				<div class="c100 p73 big" style="font-size:175px;">
-							                    <span>73%</span>
-							                    <div class="slice">
-							                        <div class="bar"></div>
-							                        <div class="fill"></div>
-							                    </div>
-							                </div>
-						                </div>
-						                <div>
-						                	<span style="color:#ff6600;">P1,140,556 of P1,541,291 needed raised</span>
-						                </div>
+                        			<div class="column is-6" style="float:left; height: 269px; text-align: left;">
+                        				<div id="piechart" style="width: 430px; height: 250px;"></div>
                         			</div>
                         		</div>
                         		<br/>
@@ -115,32 +121,22 @@
 	                        		<br/>
 	                        		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus ligula libero, 
 	                        		vestibulum euismod elit porttitor varius. Curabitur nec massa cursus, placerat dolor at, 
+	                        		eleifend eros. Sed molestie consequat ipsum, quis mattis eros. Cras rutrum, lacus sit amet 
+	                        		lobortis lacinia, justo dolor ornare est, ut accumsan elit est nec tellus.</p>
+	                        		<br/>
+	                        		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus ligula libero, 
+	                        		vestibulum euismod elit porttitor varius. Curabitur nec massa cursus, placerat dolor at, 
 	                        		eleifend eros. Sed molestie consequat ipsum, quis mattis eros.</p>
                         		</div>
                         	</div>
-                        	<div class="column is-2" style="float:left;padding-top:120px;">
+                        	<div class="column is-1" style="float:left;padding-top:120px;">
                         		<span style="font-size:1.5em;">&rsaquo;</span>
                         	</div>
                         </div>
                         <br/>
                         <br/>
                         <div class="field" style="text-align:center;">
-                            <div class="column is-6" style="float:left;">
-                            	<div>
-                           			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus ligula libero, 
-                       				vestibulum euismod elit porttitor varius.</p>
-                            	</div>
-                            	<br/>
-                                <button class="button is-link is-info" id="btnDonate">Donate to this Person</button>
-                            </div>
-                            <div class="column is-6" style="float:left;">
-                            	<div>
-                           			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque finibus ligula libero, 
-                       				vestibulum euismod elit porttitor varius.</p>
-                            	</div>
-                            	<br/>
-                                <button class="button is-link is-info" id="btnSubscribe">Subscribe for Updates</button>
-                            </div>
+                            <button class="button is-link is-info" style="margin-top:10px;" id="btnJoin">Join this Sponsorship</button>
                         </div>
                     </div>
                 </div>
@@ -153,16 +149,16 @@
 <section class="hero is-primary is-bold">
     <div class="hero-body">
         <div class="container" style="text-align:center;">
-            <div style="font-size:1.3em;font-weight: bold; margin: 5px;">Find Other Cases</div>
+            <div style="font-size:1.3em;font-weight: bold; margin: 5px;">Find Other Communities</div>
             <div>
             	<select>
-            		<option value="" selected>Diagnosis</option>
+            		<option value="" selected>Country</option>
             	</select>
             	<select>
-            		<option value="" selected>Urgency</option>
+            		<option value="" selected>City</option>
             	</select>
             	<select>
-            		<option value="" selected>Location</option>
+            		<option value="" selected>Area</option>
             	</select>
             	<button class="button is-link is-info2" id="btnSearch">Search</button>
             </div>
@@ -173,16 +169,32 @@
 <script type="text/javascript" src="https://presto-proto-web.enovax.com/js-lib/jquery-3.3.1.min.js"></script>
 
 <script type="text/javascript">
-	$('#btnDonate').click(function() {
-		window.location.href = "index.html";
+	$('#btnJoin').click(function() {
+		window.location.href = "sponsorship.html";
 	});
 	
-	$('#btnSubscribe').click(function() {
-		window.location.href = "index.html";
-	});
+	function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+       	  ['Item', 'Cost'],
+          ['Consultation', 4608],
+          ['Medicine', 7871],
+          ['Administrative', 849],
+          ['Transportation', 279],
+          ['Communication', 249]
+        ]);
+
+        var options = {
+          title: 'Sponsorship Breakdown'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
 
     $('document').ready(function() {
-
+    	google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
     });
 </script>
 
