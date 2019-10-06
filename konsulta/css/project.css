@@ -1,3 +1,7 @@
+.bg-info {
+    background-color: #ff6600!important;
+}
+
 body {
     overflow-y: hidden;
 }
@@ -55,7 +59,7 @@ img{ max-width:100%;}
 }
 
 .activeRecord{
-    background:#17a2b8;
+    background:#ff6600;
 }
 
 .activeRecord h5, .activeRecord p {
@@ -80,7 +84,7 @@ img{ max-width:100%;}
     background: #ebebeb none repeat scroll 0 0;
     border-radius: 3px;
     color: #646464;
-    font-size: 14px;
+    font-size: 16px;
     margin: 0;
     padding: 5px 10px 5px 12px;
     width: 100%;
@@ -94,9 +98,9 @@ img{ max-width:100%;}
 .received-withd-msg { width: 57%;}
 
 .sent-msg p {
-    background: #17a2b8 none repeat scroll 0 0;
+    background: #ff6600 none repeat scroll 0 0;
     border-radius: 3px;
-    font-size: 14px;
+    font-size: 16px;
     margin: 0; color:#fff;
     padding: 5px 10px 5px 12px;
     width:100%;
@@ -113,11 +117,12 @@ img{ max-width:100%;}
     font-size: 15px;
     min-height: 48px;
     width: 95%;
+    outline: none;
 }
 
 .type-msg {border-top: 1px solid #c4c4c4;position: relative;}
 .msg-send-btn {
-    background: #17a2b8 none repeat scroll 0 0;
+    background: #ff6600 none repeat scroll 0 0;
     border: medium none;
     border-radius: 50%;
     color: #fff;

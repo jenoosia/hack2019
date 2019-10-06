@@ -2,7 +2,8 @@
 
     var staffName = 'Jensen';
 
-    var API_DOMAIN = "https://9a0f14c2.ngrok.io";
+    // var API_DOMAIN = "https://9a0f14c2.ngrok.io";
+    var API_DOMAIN = "http://localhost:8080";
 
     $(document).ready(function() {
         ks.caseRecord = new ks.CaseRecord();
@@ -58,11 +59,12 @@
                 success : function(data) {
                     if(data) {
                         //TODO not sure if needed to do this kind of checking? just worried that there will be some replacement happening when we click send message ???
-                        if (s.selectedRefNum() === refNum && s.selectedRecord() && s.selectedRecord().messages() && data.messages) {
+                        if (s.selectedRefNum() === refNum && s.selectedRecord() && s.selectedRecord().messages()
+                            && data.messages && s.selectedRecord().messages().length === data.messages.length) {
                             var clientMessages = s.selectedRecord().messages();
                             var serverMessages = data.messages;
                         } else {
-                            var caseRecordInfo = new ks.CaseRecordInfo();
+                            var caseRecordInfo = new ks.CaseRecordInfo(s.selectedRecord() ? s.selectedRecord().newMessage() : null);
                             caseRecordInfo.init(data);
                             s.selectedRecord(caseRecordInfo);  //replace only when there's changes in messages
                             s.selectedRefNum(refNum);
@@ -108,7 +110,7 @@
         }
     }
 
-    ks.CaseRecordInfo = function() {
+    ks.CaseRecordInfo = function(nm) {
         var s = this;
 
         s.caseRefNum = ko.observable('');
@@ -118,23 +120,25 @@
 
         s.messages = ko.observableArray([]);
 
-        s.newMessage = ko.observable('');
+        s.newMessage = ko.observable(nm ? nm : '');
 
         s.historiesData = [
             {
-                "itemRefNum" : "CR-191006-AB99D",
-                "createdDate" : "October 6, 2019",
-                "summary" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem mollis aliquam ut porttitor leo a diam sollicitudin. Phasellus egestas tellus rutrum tellus. Placerat orci nulla pellentesque dignissim enim sit amet. Lobortis elementum nibh tellus molestie nunc. Interdum consectetur libero id faucibus nisl tincidunt eget nullam. Mauris cursus mattis molestie a iaculis at erat pellentesque adipiscing. Nec ullamcorper sit amet risus. Adipiscing enim eu turpis egestas pretium aenean pharetra. Nullam eget felis eget nunc lobortis mattis. Eget est lorem ipsum dolor sit amet consectetur."
-            },
-            {
-                "itemRefNum" : "CR-191005-AB99D",
-                "createdDate" : "October 5, 2019",
-                "summary" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem mollis aliquam ut porttitor leo a diam sollicitudin. Phasellus egestas tellus rutrum tellus. Placerat orci nulla pellentesque dignissim enim sit amet. Lobortis elementum nibh tellus molestie nunc. Interdum consectetur libero id faucibus nisl tincidunt eget nullam. Mauris cursus mattis molestie a iaculis at erat pellentesque adipiscing. Nec ullamcorper sit amet risus. Adipiscing enim eu turpis egestas pretium aenean pharetra. Nullam eget felis eget nunc lobortis mattis. Eget est lorem ipsum dolor sit amet consectetur."
-            },
-            {
-                "itemRefNum" : "CR-191004-AB99D",
+                "itemRefNum" : "[ID:FB6C21] Medium | Done | Triage",
                 "createdDate" : "October 4, 2019",
-                "summary" : "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem mollis aliquam ut porttitor leo a diam sollicitudin. Phasellus egestas tellus rutrum tellus. Placerat orci nulla pellentesque dignissim enim sit amet. Lobortis elementum nibh tellus molestie nunc. Interdum consectetur libero id faucibus nisl tincidunt eget nullam. Mauris cursus mattis molestie a iaculis at erat pellentesque adipiscing. Nec ullamcorper sit amet risus. Adipiscing enim eu turpis egestas pretium aenean pharetra. Nullam eget felis eget nunc lobortis mattis. Eget est lorem ipsum dolor sit amet consectetur."
+                "summary" : "Maria's son has a fever. Confirmed with Maria that she has a thermometer, and her son has a mild fever of 37.7C." +
+                    " Told her to take paracetamol and check in with us again."
+            },
+            {
+                "itemRefNum" : "[ID:76CEA9] Low | Done | Query",
+                "createdDate" : "October 2, 2019",
+                "summary" : "Maria wanted to ask about trusted brands of medicine for the common cold. " +
+                    "Educated patient on generic drugs and their safety and affordability compared to other popular brands."
+            },
+            {
+                "itemRefNum" : "[ID:76CEA9] Low | Done | Query",
+                "createdDate" : "September 30, 2019",
+                "summary" : "Maria first reached out for a triage consultation, but was too shy to continue."
             }
         ];
         s.histories = ko.observableArray([]);
@@ -145,17 +149,17 @@
             s.caseRefNum(data.caseRefNum);
             s.mobileNum(data.mobileNum);
             s.address(data.address);
-            s.messages([]);
             s.histories([]);
-            s.newMessage('');
+            // s.newMessage('');
 
             if(data.messages) {
+                var tmpList = [];
                 $.each(data.messages, function(idx, msg) {
                     var message = new ks.CaseRecordMessage();
                     message.init(msg);
-                    s.messages.push(message);
+                    tmpList.push(message);
                 });
-
+                s.messages(tmpList);
 
                 setTimeout(function(){ s.scrollTop(); }, 100);
             }
