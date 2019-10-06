@@ -9,6 +9,8 @@ public interface CaseRecordRepository extends JpaRepository<CaseRecord, Integer>
 
     CaseRecord findByPrimaryMobile(String mobile);
 
+    CaseRecord findByViberId(String viberId);
+
     CaseRecord findByCaseRefNum(String caseRefNum);
 
 }

@@ -2,7 +2,6 @@ package com.exaz.hack2019.konsulta;
 
 import com.exaz.hack2019.konsulta.model.TwilioSms;
 import com.exaz.hack2019.konsulta.service.KonsultaService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import org.apache.logging.log4j.LogManager;

@@ -5,16 +5,24 @@ import com.exaz.hack2019.konsulta.constant.MessageChannels;
 import com.exaz.hack2019.konsulta.constant.MessageTypes;
 import com.exaz.hack2019.konsulta.datamodel.CaseRecord;
 import com.exaz.hack2019.konsulta.datamodel.TheMessage;
-import com.exaz.hack2019.konsulta.model.SendMessageVm;
-import com.exaz.hack2019.konsulta.model.TwilioSms;
+import com.exaz.hack2019.konsulta.model.*;
 import com.exaz.hack2019.konsulta.repository.CaseRecordRepository;
 import com.exaz.hack2019.konsulta.repository.TheMessageRepository;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
@@ -28,10 +36,57 @@ public class KonsultaService {
 
     public static final String FROM_STAFF = "from_staff";
 
+
+    @Value("${twilio.number.wa}")
+    private String twilioNumberWa;
+    @Value("${twilio.number.sms}")
+    private String twilioNumberSms;
+
+    @Value("${viber.token}")
+    private String vt;
+
+    @Autowired
+    private RestTemplateBuilder rtb;
+
     @Autowired
     private CaseRecordRepository crr;
     @Autowired
     private TheMessageRepository tmr;
+
+    //Assume message received
+    @Transactional
+    public String processViberMessage(ViberWebhookEvent event) {
+        //TODO Does not support new sign-ups
+        final CaseRecord caseRecord = crr.findByViberId(event.getSender().getId());
+        final MessageChannels channel = MessageChannels.Viber;
+
+        caseRecord.setPrimaryChannel(channel.name());
+
+        final VWESender sender = event.getSender();
+        final VWEMessage message = event.getMessage();
+
+        //Store the message
+        final TheMessage tm = new TheMessage();
+        tm.setCaseRecord(caseRecord);
+        tm.setCaseRefNum(caseRecord.getCaseRefNum());
+        tm.setChannel(channel.name());
+        tm.setChatName(caseRecord.getName());
+        tm.setCreatedDate(new Date());
+        tm.setFromSid(sender.getId());
+        tm.setFromUser(sender.getName());
+        tm.setAvatar("");
+        tm.setMessage(message.getText());
+        tm.setMessageType(MessageTypes.Text.name());
+        tm.setMsgSid(event.getMessage_token());
+        tm.setRaw(event.toString());
+        tm.setToUser("Konsulta-Viber");
+
+        tmr.save(tm);
+
+        //TODO Testing
+
+        return "";
+    }
 
     @Transactional
     public String processTwilioSms(TwilioSms sms) {
@@ -79,25 +134,26 @@ public class KonsultaService {
             return "";
         }
 
-        if (body.startsWith("My name is ")) {
-            final String theName = body.substring(body.indexOf("My name is ") + 11);
-            caseRecord.setName(theName);
-            crr.save(caseRecord);
-            tm.setChatName(theName);
-            tmr.save(tm);
+//        if (body.startsWith("My name is ")) {
+//            final String theName = body.substring(body.indexOf("My name is ") + 11);
+//            caseRecord.setName(theName);
+//            crr.save(caseRecord);
+//            tm.setChatName(theName);
+//            tmr.save(tm);
+//
+//            return "Hello, " + theName + "! Welcome to Konsulta. Tell us what you need. :)";
+//        }
+//
+//        if (body.contains("dengue")) {
+//
+//        }
+//
+//        if (isNewCase) {
+//            return "Welcome to Konsulta, " + caseRecord.getName() + "! We hope you'll find this useful. First, tell us what your name is.";
+//        }
 
-            return "Hello, " + theName + "! Welcome to Konsulta. Tell us what you need. :)";
-        }
-
-        if (body.contains("dengue")) {
-
-        }
-
-        if (isNewCase) {
-            return "Welcome to Konsulta, " + caseRecord.getName() + "! We hope you'll find this useful. First, tell us what your name is.";
-        }
-
-        return "Hang on, we'll ask someone to chat with you soon!";
+//        return "Hang on, we'll ask someone to chat with you soon!";
+        return "";
     }
 
     @Transactional
@@ -147,14 +203,37 @@ public class KonsultaService {
             return false; //TODO must work together
         }
 
-        if (!cr.getMessages().isEmpty()) {
-            final TheMessage tm = cr.getMessages().get(cr.getMessages().size() - 1);
+        final String channel = cr.getPrimaryChannel();
+        if (MessageChannels.WhatsApp.name().equals(channel) || MessageChannels.Sms.name().equals(channel)) {
+            final String numPrefix = channel.equals(MessageChannels.WhatsApp.name()) ? "whatsapp:" : "";
+            final Message twiMsg = Message.creator(
+                    new PhoneNumber(numPrefix + cr.getPrimaryMobile()),
+                    new PhoneNumber(numPrefix + (MessageChannels.WhatsApp.name().equals(channel) ? twilioNumberWa : twilioNumberSms)),
+                    "From " + sm.getStaffName() + ": " + sm.getMessage()).create();
+            log.info(twiMsg);
+        } else if (MessageChannels.Viber.name().equals(channel)) {
+
+            final RestTemplate restViber = rtb.build();
+
+            final ViberSend viberSend = new ViberSend();
+            viberSend.setReceiver(cr.getViberId());
+            viberSend.setText("From " + sm.getStaffName() + ": " + sm.getMessage());
+            viberSend.setSender(new ViberSender("Konsulta"));
+
+            final HttpHeaders headers = new HttpHeaders();
+            headers.add("X-Viber-Auth-Token", vt);
+            HttpEntity<ViberSend> hev = new HttpEntity<>(viberSend, headers);
+
+            final ResponseEntity<String> rvResponse = restViber.exchange("https://chatapi.viber.com/pa/send_message", HttpMethod.POST, hev, String.class);
+            log.info("Sent! " + rvResponse.getBody());
+        } else {
+            log.warn("NA channel!");
         }
 
         final TheMessage tm = new TheMessage();
         tm.setCaseRecord(cr);
         tm.setCaseRefNum(cr.getCaseRefNum());
-        tm.setChannel(cr.getPrimaryChannel());
+        tm.setChannel(channel);
         tm.setChatName(sm.getStaffName());
         tm.setCreatedDate(new Date());
         tm.setFromSid("");

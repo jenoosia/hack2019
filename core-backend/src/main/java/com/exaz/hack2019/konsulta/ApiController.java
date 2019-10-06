@@ -40,6 +40,7 @@ public class ApiController {
         ks.allCaseRecords().forEach(cr -> {
             final CaseVm cvm = new CaseVm();
             cvm.setCaseRefNum(cr.getCaseRefNum());
+            cvm.setName(cr.getName());
             cases.add(cvm);
         });
 
