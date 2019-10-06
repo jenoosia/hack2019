@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Konsulta</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link rel="stylesheet" href="/css/project.css">
+</head>
+<body id="theCaseRecord">
+
+<nav class="navbar navbar-expand-lg navbar-light bg-info">
+    <h3>
+        <a class="navbar-brand" href="#" style="color: white">Konsulta</a>
+    </h3>
+    <div class="staff-name">
+        <i class="fa fa-user"></i> Hi, <span data-bind="text: staffName"></span>
+    </div>
+    <button type="button" class="btn btn-dark" style="margin-left: 10px">Logout</button>
+</nav>
+
+<div class="container-fluid" width="100%" style="border-bottom: 1px solid lightgray">
+    <div class="row">
+        <div class="col-xl-2 col-lg-2">
+            <div class="header-search"  style="border-right: 1px solid lightgray">
+                <form class="form-inline ">
+                    <input class="form-control form-control-sm mr-3 w-75" type="text" placeholder="Search"
+                           aria-label="Search">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                </form>
+            </div>
+            <div class="case-list" data-bind="foreach: caseRecords">
+                <div class="case-record" data-bind="css: { activeRecord: isSelected() }">
+                    <div class="case-record-item">
+                        <a href="#" data-bind="click: function(data) { $parent.retrieveRecord(data.caseRefNum()) }">
+                            <div class="case-record-item-info">
+                                <h5 data-bind="text: caseRefNum"></h5>
+                                <p data-bind="text: name"></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-10 col-lg-10" data-bind="with: selectedRecord, visible: selectedRecord">
+            <div class="row">
+                <div class = "col-6" style="border-right: 1px solid lightgray">
+                    <div class="row" style="border-bottom: 1px solid lightgray; padding-top: 10px;">
+                        <div class="case-info col-12">
+                            <div class="col-12"><h4 data-bind="text: caseRefNum"></h4></div>
+                            <div class="col-12" data-bind="text: name"></div>
+                            <div class="col-12" data-bind="text: mobileNum"></div>
+                            <div class="col-12" data-bind="text: address"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                            <div id="messages-div" class="messsage-history col-12" data-bind="foreach: messages">
+                                <div class="incoming-msg" data-bind="visible: fromPatient" style="display:none">
+                                    <div class="incoming-msg_img"> <img data-bind="attr: { src: channelIcon }" alt="channel"> </div>
+                                    <div class="received-msg">
+                                        <div class="received-withd-msg">
+                                            <p data-bind="text: message"></p>
+                                            <span class="time-date" data-bind="text: dateSent"></span></div>
+                                    </div>
+                                </div>
+                                <div class="outgoing-msg" data-bind="visible: !fromPatient()" style="display:none">
+                                    <div class="sent-msg">
+                                        <p data-bind="text: message"></p>
+                                        <span class="time-date" data-bind="text: dateSent"></span> </div>
+                                </div>
+                            </div>
+                    </div>
+                    <div class="row">
+                            <div class="type-msg col-12">
+                                <div class="input-msg-write">
+                                    <input type="text" class="write_msg" placeholder="Type a message" data-bind="value: newMessage"/>
+                                    <button class="msg-send-btn" type="button" data-bind="click: sendMessage"><i class="far fa-paper-plane" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                    </div>
+
+                </div>
+
+                <div class="col-6 case-log">
+                    <div class="row" style="padding-top: 10px">
+                        <div class="col-10"><h4>Case Log</h4></div>
+                        <div class="col-1"><i class="fas fa-plus"></i></div>
+                        <div class="col-1"></div>
+                    </div>
+
+                    <!-- ko foreach: histories -->
+                        <div class="row">
+                            <div class="card col-11" style="margin: 10px 5px 10px 10px">
+                                <div class="card-body">
+                                    <h5 class="card-title" data-bind="text: itemRefNum"></h5>
+                                    <p class="card-text" data-bind="text: createdDate"></p>
+                                    <p class="card-text" data-bind="text: summary"></p>
+                                </div>
+                            </div>
+                            <div class="col-1"></div>
+                        </div>
+                    <!-- /ko -->
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-10" data-bind="ifnot: selectedRecord, visible: !selectedRecord()">
+            <div class="row">
+                <div class="col-12 no-record">
+                    Please select a case record.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" width="100%">
+    <div class="footer-notes">
+        Copyright © 2019 Konsulta. All rights reserved.
+    </div>
+</div>
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+<script src="/js/moment.min.js"></script>
+<script src="/js/knockout-3.5.0.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/test-data.js"></script>
+<script src="/js/project.js"></script>
+
+</body>
+</html>

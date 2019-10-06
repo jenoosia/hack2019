@@ -20,5 +20,4 @@ public class TwilioSmsController {
         log.info(kvpInput);
         return new ResponseEntity<>("You said something I don't understand, 'cause I'm still a basic bot at the moment." , HttpStatus.OK);
     }
-
 }

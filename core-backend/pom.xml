@@ -66,6 +66,14 @@
             <artifactId>spring-session-core</artifactId>
         </dependency>
 
+        <!-- Twilio -->
+
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>7.42.0</version>
+        </dependency>
+
         <!-- Data -->
 
         <dependency>
@@ -119,6 +127,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
     </dependencies>
 
     <build>
