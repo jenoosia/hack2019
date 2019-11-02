@@ -4,7 +4,7 @@
 
 Konsulta is low-cost omnichannel triage that works with the 4 most common communications channels in the Philippines.
 
-**Note: More information can be found in the pitch document: /Konsulta-Pitch.pdf **
+**Note: More information can be found in the pitch document: /Konsulta-Pitch.pdf**
 
 ### Konsulta Triage
 
