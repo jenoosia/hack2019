@@ -1,8 +1,10 @@
-# hack2019
+# Konsulta : Low-cost omnichannel triage
 
 #HACK 2019 - Global Missions Hackathon (SG - https://indigitous.sg/)
 
-Konsulta is low-cost remote triage that works with the 4 most common communications channels in the Philippines.
+Konsulta is low-cost omnichannel triage that works with the 4 most common communications channels in the Philippines.
+
+**Note: More information can be found in the pitch document: /Konsulta-Pitch.pdf **
 
 ### Konsulta Triage
 
